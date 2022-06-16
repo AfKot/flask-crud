@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    {% for user in ["ben", "betty", "bobby", "harry", "lucy", "jenny"] %}
+        {% if 'b' in user %}
+        <p> {{ user }} </p>
+        {% else %}
+        <p> </p>
+        {% endif %}
+    {% endfor %}
+
+{% endblock body %}

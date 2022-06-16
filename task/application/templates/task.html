@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %} 
+{% for todo in ToDo %}
+<p> Task: {{ todo.task_name }} </p>
+<p> Completed: {{ todo.completed }} </p> <br>
+{% endfor %}
+{% endblock body%}
