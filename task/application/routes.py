@@ -1,6 +1,7 @@
 from application import app, db
 from application.models import ToDo
-from flask import Flask, redirect, url_for, render_template
+from application.forms import TaskForm 
+from flask import Flask, redirect, url_for, render_template, request
 
 
 @app.route('/')
@@ -16,12 +17,26 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route('/add/<t_name>')
-def add(t_name):
-    task = ToDo(task_name=t_name) 
-    db.session.add(task)
-    db.session.commit()
-    return "Added to ToDo List"
+# @app.route('/add/<t_name>')
+# def add(t_name):
+#     task = ToDo(task_name=t_name) 
+#     db.session.add(task)
+#     db.session.commit()
+#     return "Added to ToDo List"
+
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    form = TaskForm()
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            taskData = ToDo(
+                task_name = form.task_name.data,
+                completed = form.completed.data
+            )
+            db.session.add(taskData)
+            db.session.commit()
+            return redirect(url_for('index'))
+    return render_template('addTask.html', form=form)
 
 @app.route('/complete/<int:id>')
 def complete(id):
